@@ -1,57 +1,68 @@
-'''Please complete the following functions.
+#Assignment 2
+'''
+Write a Python function called max_num()to find the maximum of three numbers.
+Write a Python function called mult_list() to multiply all the numbers in a list.
+Write a Python function called rev_string() to reverse a string.
+Write a Python function called num_within() to check whether a number falls in a given range.
+    The function accepts the number, beginning of range, and end of range (inclusive) as arguments.
+    Examples: num_within(3,2,4) returns True, num_within(3,1,3) returns True, num_within(10,2,5) returns False.
+Write a Python function called pascal() that prints out the first n rows of Pascal's triangle.
+    The function accepts the number n, the number of rows to print
+    Note : Pascal's triangle is an arithmetic and geometric figure first imagined by Blaise Pascal. Each number is the two numbers above it added together.'''
 
-arb_args - Takes in any number of arguments and prints them one at a time.
-inner_func - Takes in two integers. Two nested functions should perform separate, distinct math operations using the integers. The result of both nested functions should then be added together and printed.
-lunch_lady - Takes in two strings: a student's name and their lunch preference. The function should print both strings. If a lunch preference is not given, "Mystery Meat" should be printed instead.
-sum_n_product - Accepts two integers and returns both the sum and the product.
-alias_arb_args - Should be arb_args but assigned an alias. Remember, variables can hold functions in Python just like they can in JS. Alternatively, you can call a function from inside another function.
-arb_mean - Accepts any number of integers and prints their average.
-arb_longest_string - Accepts any number of strings and returns the longest one.'''
+#silly, brute force way to find max of three numbers
+def max_num_brute_force(num1=2, num2=3, num3=4):
+    if num1>num2:
+        if num1>num3:
+            return num1
+        else: return num3
+    elif num2>num3:
+        return num2
+    else: return num3
+#elegant and simple way to find max number
+def max_num(num1=2, num2=3, num3=4):
+    numList = [num1,num2, num3]
+    return max(numList)
+#multiply all numbers in a list
+def mult_list(list=[1,2,3,4]):
+    result = 1
+    for i in range(len(list)):
+        result*=list[i]
+#reverse a string
+def rev_string(string="test"):
+    reversed = ''
+    for i in range(len(string)):
+        alt=i+1
+        reversed = reversed + string[-alt]
+    print(reversed)
+#check if number is within range (inclusive)
+def num_within(num1, num2, num3):
+    if num2 <= num1 <= num3:
+        return True
+    else: return False
+#Sweet pascal triangle function...using RECURSION!!
+def pascal(rows):
+  if rows == 0:
+    return []  # Base case: Empty list for 0 rows
+  elif rows == 1:
+    print(1)  # Base case: Print the single 1 for 1 row
+    return [[1]]
 
-def arb_args(args):
-    for i in range(len(args)):
-        print(args[i])
+  # Get the previous row using recursion
+  previous_row = pascal(rows - 1)
+  current_row = [1]  # Start new row with 1
 
-def inner_func(int1, int2):
-    math1 = int1 * int2
-    math2 = int1 - int2
-    return math1 + math2
+  # Generate the remaining elements of the list row based on previous row
+  for i in range(1, rows - 1):
+    #using the pascal math, add the "inside" values
+    current_row.append(previous_row[i - 1] + previous_row[i])
+  current_row.append(1)  # End new row with a 1
 
-def lunch_lady(st_name, st_pref="Mystery Meat"):
-    print(f'{st_name} will eat {st_pref}!')
+  # Print the current row by iterating through the list of values
+  for num in current_row:
+    print(f"{num}", end=" ") #the end=" " keeps new values on the same line to make it pretty
+  print('')  # Move to next line after each row
 
-def sum_n_product(int1, int2):
-    return int1*int2, int1*int2
+  return current_row
 
-alias_arb_args = arb_args(["test1","test2", "test3"])
-
-def alias_arb_args_innerFunc():
-    arb_args(["test4","test5","test6"])
-
-def arb_mean(args):
-    total = sum(args)
-    average = total/len(args)
-    print(average)
-
-def arb_longest_string(args):
-    longest = args[0]
-    for i in range(len(args)):
-        if len(args[i]) > len(longest):
-            longest = args[i]
-    print(f"Longest word is {longest}")
-
-
-def test_all():
-    test_list_strings = ["me","you","brother","cousin"]
-    test_list_numbers = [2,4,7,1,0,-1,3]
-
-    arb_args(test_list_strings)
-    inner_func(2,6)
-    lunch_lady("Sam")
-    lunch_lady("Sam", "Hamburgers")
-    sum_n_product(3,4)
-    alias_arb_args_innerFunc()
-    arb_mean(test_list_numbers)
-    arb_longest_string(test_list_strings)
-
-test_all()
+pascal(12)
